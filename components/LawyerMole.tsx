@@ -30,10 +30,15 @@ const LawyerMole: React.FC<LawyerMoleProps> = ({ lawyer, onWhack }) => {
       }
   }, [lawyer.isActive, lawyer.type, lawyer.health]);
 
-  const handleWhack = (e: React.MouseEvent) => {
+  const handleWhack = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
+    e.preventDefault();
     if (lawyer.isActive && lawyer.health > 0) {
-      onWhack(lawyer.id, e);
+      // Convert touch event to mouse event format for position calculation
+      const mouseEvent = 'touches' in e
+        ? { ...e, clientX: e.touches[0]?.clientX || 0, clientY: e.touches[0]?.clientY || 0 } as unknown as React.MouseEvent
+        : e as React.MouseEvent;
+      onWhack(lawyer.id, mouseEvent);
     }
   };
 
@@ -149,7 +154,7 @@ const LawyerMole: React.FC<LawyerMoleProps> = ({ lawyer, onWhack }) => {
   const theme = getTheme();
 
   return (
-    <div className="relative w-full h-36 sm:h-44 flex justify-center items-end overflow-hidden rounded-xl bg-gradient-to-b from-gray-800 to-gray-900 border-b-4 border-gray-700 shadow-inner group">
+    <div className="relative w-full h-32 sm:h-44 flex justify-center items-end overflow-hidden rounded-xl bg-gradient-to-b from-gray-800 to-gray-900 border-b-4 border-gray-700 shadow-inner group touch-manipulation">
       {/* Nameplate / Desk */}
       <div className="absolute bottom-0 w-full h-8 bg-[#3d2b1f] border-t-2 border-[#5c4033] flex items-center justify-center z-30 shadow-lg">
           <div className="bg-yellow-600/20 px-2 py-0.5 rounded text-[10px] sm:text-xs text-yellow-500 font-serif tracking-widest uppercase truncate max-w-[90%]">
@@ -160,20 +165,21 @@ const LawyerMole: React.FC<LawyerMoleProps> = ({ lawyer, onWhack }) => {
       {/* The Lawyer Character */}
       <div
         onMouseDown={handleWhack}
+        onTouchStart={handleWhack}
         className={`
-          absolute bottom-6 w-28 h-32
+          absolute bottom-6 w-24 sm:w-28 h-28 sm:h-32
           flex flex-col items-center justify-end cursor-pointer select-none
           transition-all duration-150 ease-out z-10
           ${lawyer.isActive ? 'translate-y-0' : 'translate-y-[120%]'}
           ${isHitAnim ? 'scale-95 translate-y-2 rotate-2 blur-[1px]' : ''}
-          hover:brightness-110
+          active:brightness-125 hover:brightness-110
         `}
       >
         {/* Taunt Bubble */}
-        <div 
+        <div
           className={`
-            absolute -top-16 left-1/2 -translate-x-1/2 
-            w-36 bg-white text-gray-900 text-xs font-bold p-2 rounded-xl shadow-xl
+            absolute -top-14 sm:-top-16 left-1/2 -translate-x-1/2
+            w-28 sm:w-36 bg-white text-gray-900 text-[10px] sm:text-xs font-bold p-1.5 sm:p-2 rounded-lg sm:rounded-xl shadow-xl
             border-2 border-gray-200 z-50 text-center
             transition-all duration-200 origin-bottom
             ${lawyer.isActive && lawyer.health > 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-50 translate-y-10'}
@@ -182,10 +188,10 @@ const LawyerMole: React.FC<LawyerMoleProps> = ({ lawyer, onWhack }) => {
         >
           "{lawyer.taunt}"
           {/* Bill Counter attached to bubble */}
-          <div className="absolute -top-3 -right-2 bg-green-600 text-white text-[10px] font-mono px-1.5 py-0.5 rounded shadow border border-green-400">
+          <div className="absolute -top-2.5 sm:-top-3 -right-1.5 sm:-right-2 bg-green-600 text-white text-[8px] sm:text-[10px] font-mono px-1 sm:px-1.5 py-0.5 rounded shadow border border-green-400">
              ¥{currentBill}
           </div>
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white"></div>
+          <div className="absolute -bottom-1.5 sm:-bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-6 sm:border-l-8 border-r-6 sm:border-r-8 border-t-6 sm:border-t-8 border-l-transparent border-r-transparent border-t-white"></div>
         </div>
 
         {/* Health / Armor */}

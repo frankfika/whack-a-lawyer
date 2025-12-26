@@ -155,15 +155,17 @@ const GameBoard: React.FC<GameBoardProps> = ({ status, setStatus, updateScore, r
     setStatus(GameStatus.PLAYING);
   };
 
-  const handleBoardClick = (e: React.MouseEvent) => {
+  const handleBoardClick = (e: React.MouseEvent | React.TouchEvent) => {
       if (status !== GameStatus.PLAYING) return;
       setCombo(0);
-      updateScore(-100, false, 0, 0); 
-      
+      updateScore(-100, false, 0, 0);
+
       const rect = containerRef.current?.getBoundingClientRect();
       if (rect) {
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
+          const clientX = 'touches' in e ? e.touches[0]?.clientX || 0 : e.clientX;
+          const clientY = 'touches' in e ? e.touches[0]?.clientY || 0 : e.clientY;
+          const x = clientX - rect.left;
+          const y = clientY - rect.top;
           spawnParticle(x, y, "打空了!", "text-gray-400 font-bold text-sm");
       }
   };
@@ -326,11 +328,12 @@ const GameBoard: React.FC<GameBoardProps> = ({ status, setStatus, updateScore, r
         </div>
 
         {/* Grid Container */}
-        <div 
+        <div
             onClick={handleBoardClick}
+            onTouchStart={handleBoardClick}
             className={`
-                grid grid-cols-3 gap-y-8 gap-x-4 p-6 rounded-b-xl rounded-t-sm bg-[#1e293b] 
-                border-t-[16px] border-[#334155] shadow-2xl cursor-pointer
+                grid grid-cols-3 gap-y-4 sm:gap-y-8 gap-x-2 sm:gap-x-4 p-3 sm:p-6 rounded-b-xl rounded-t-sm bg-[#1e293b]
+                border-t-[12px] sm:border-t-[16px] border-[#334155] shadow-2xl cursor-pointer touch-manipulation
                 ${shake ? 'animate-shake' : ''}
             `}
             style={{

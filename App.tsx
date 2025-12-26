@@ -48,44 +48,44 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center py-6 px-4 select-none font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center py-4 sm:py-6 px-2 sm:px-4 select-none font-sans overflow-x-hidden touch-manipulation">
       
       {/* Header */}
-      <header className="w-full max-w-2xl flex flex-col items-center mb-6 space-y-1 z-10">
-        <div className="flex items-center gap-3 text-red-600 drop-shadow-[0_2px_15px_rgba(220,38,38,0.5)]">
-          <Gavel className="w-8 h-8 md:w-12 md:h-12" strokeWidth={3} />
-          <h1 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-center" style={{fontFamily: '"Noto Serif SC", serif'}}>
+      <header className="w-full max-w-2xl flex flex-col items-center mb-4 sm:mb-6 space-y-1 z-10">
+        <div className="flex items-center gap-2 sm:gap-3 text-red-600 drop-shadow-[0_2px_15px_rgba(220,38,38,0.5)]">
+          <Gavel className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12" strokeWidth={3} />
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tighter uppercase text-center" style={{fontFamily: '"Noto Serif SC", serif'}}>
             打死那个律师
           </h1>
-          <Gavel className="w-8 h-8 md:w-12 md:h-12 transform scale-x-[-1]" strokeWidth={3} />
+          <Gavel className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 transform scale-x-[-1]" strokeWidth={3} />
         </div>
-        <p className="text-slate-400 text-xs md:text-sm italic text-center max-w-lg">
-          “用正义的重锤，粉碎那些荒谬的借口。”
+        <p className="text-slate-400 text-[10px] sm:text-xs md:text-sm italic text-center max-w-lg px-2">
+          "用正义的重锤，粉碎那些荒谬的借口。"
         </p>
       </header>
 
       {/* Scoreboard */}
-      <div className="w-full max-w-2xl bg-slate-800 rounded-xl p-3 mb-6 border border-slate-700 shadow-2xl grid grid-cols-3 gap-2 z-10 relative overflow-hidden">
+      <div className="w-full max-w-2xl bg-slate-800 rounded-lg sm:rounded-xl p-2 sm:p-3 mb-4 sm:mb-6 border border-slate-700 shadow-2xl grid grid-cols-3 gap-1 sm:gap-2 z-10 relative overflow-hidden">
         {/* Bg accent */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50"></div>
-        
+
         <div className="flex flex-col items-center border-r border-slate-700">
-           <span className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">正义值 (得分)</span>
-           <span className="text-xl md:text-3xl font-black text-white drop-shadow-md">{scoreState.score}</span>
+           <span className="text-slate-500 text-[8px] sm:text-[10px] font-bold uppercase tracking-wider mb-0.5 sm:mb-1">正义值</span>
+           <span className="text-lg sm:text-xl md:text-3xl font-black text-white drop-shadow-md">{scoreState.score}</span>
         </div>
-        
+
         <div className="flex flex-col items-center border-r border-slate-700">
-           <span className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">为您省下</span>
+           <span className="text-slate-500 text-[8px] sm:text-[10px] font-bold uppercase tracking-wider mb-0.5 sm:mb-1">省下</span>
            <div className="flex items-center gap-1">
-             <span className="text-lg md:text-2xl font-bold text-green-400 font-mono">¥{scoreState.moneySaved}</span>
+             <span className="text-base sm:text-lg md:text-2xl font-bold text-green-400 font-mono">¥{scoreState.moneySaved}</span>
            </div>
         </div>
 
         <div className="flex flex-col items-center">
-           <span className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">最高连击</span>
-           <div className="flex items-center gap-1">
-             <Zap className="w-3 h-3 text-yellow-400" fill="currentColor" />
-             <span className="text-lg md:text-2xl font-bold text-yellow-100">{scoreState.maxCombo}</span>
+           <span className="text-slate-500 text-[8px] sm:text-[10px] font-bold uppercase tracking-wider mb-0.5 sm:mb-1">连击</span>
+           <div className="flex items-center gap-0.5 sm:gap-1">
+             <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-yellow-400" fill="currentColor" />
+             <span className="text-base sm:text-lg md:text-2xl font-bold text-yellow-100">{scoreState.maxCombo}</span>
            </div>
         </div>
       </div>
